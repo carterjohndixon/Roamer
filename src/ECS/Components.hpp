@@ -7,3 +7,4 @@
 #include "TileComponent.hpp"
 #include "InventoryComponent.hpp"
 #include "HealthComponent.hpp"
+#include "EnemyComponent.hpp"

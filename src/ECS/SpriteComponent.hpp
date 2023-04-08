@@ -55,6 +55,56 @@ public:
     {
     }
 
+    void swordSwing(std::string id, bool isAnimated)
+    {
+        animated = isAnimated;
+
+        Animation idleSwingRight = Animation(0, 2, 150);
+        Animation walkSwing = Animation(1, 8, 150);
+        Animation idleSwingLeft = Animation(2, 2, 150);
+
+        animations.emplace("idleSwingRight", idleSwingRight);
+        animations.emplace("walkSwing", walkSwing);
+        animations.emplace("idleSwingLeft", idleSwingLeft);
+
+        if (id == "idleSwingRight")
+            Play("idleSwingRight");
+        if (id == "idleSwingLeft")
+            Play("idleSwingLeft");
+
+        curTex = id;
+
+        setTex(id);
+    }
+
+    // void swordSwingLeft(std::string id, bool isAnimated)
+    // {
+    //     animated = isAnimated;
+
+    //     Play("idleSwingLeft");
+
+    //     curTex = id;
+
+    //     setTex(id);
+    // }
+
+    void spawnPlantMonster(std::string id, bool isAnimated)
+    {
+        animated = isAnimated;
+
+        Animation plantMosterSpawn = Animation(0, 5, 300);
+
+        animations.emplace("plantMosterSpawn", plantMosterSpawn);
+
+        Play("plantMosterSpawn");
+
+        std::cout << this->animIndex << std::endl;
+
+        curTex = id;
+
+        setTex(id);
+    }
+
     void setTex(std::string id)
     {
         texture = Game::assets->GetTexture(id);

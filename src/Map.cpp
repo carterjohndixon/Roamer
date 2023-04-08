@@ -2,7 +2,6 @@
 
 #include "Map.hpp"
 #include "Game.hpp"
-#include "ECS/ECS.hpp"
 #include "ECS/Components.hpp"
 
 extern Manager manager;

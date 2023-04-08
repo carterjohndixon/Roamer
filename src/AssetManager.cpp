@@ -22,20 +22,41 @@ SDL_Texture *AssetManager::GetTexture(std::string id)
 
 void AssetManager::DrawTexture(std::string id, SDL_Rect mRect, int xpos, int ypos, int destW, int destH, float scale)
 {
+    if (FindTexture(id))
+    {
+        SDL_Texture *texture = GetTexture(id);
+        SDL_Rect srcRect, destRect;
+
+        srcRect.x = mRect.x;
+        srcRect.y = mRect.y;
+        srcRect.w = mRect.w;
+        srcRect.h = mRect.h;
+
+        destRect.x = xpos;
+        destRect.y = ypos;
+        destRect.w = destW * scale;
+        destRect.h = destH * scale;
+
+        TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE);
+    }
+    return;
+}
+
+void AssetManager::DeleteTexture(std::string id)
+{
     SDL_Texture *texture = GetTexture(id);
-    SDL_Rect srcRect, destRect;
+    textures.erase(id);
+    SDL_DestroyTexture(texture);
+}
 
-    srcRect.x = mRect.x;
-    srcRect.y = mRect.y;
-    srcRect.w = mRect.w;
-    srcRect.h = mRect.h;
+bool AssetManager::FindTexture(std::string id)
+{
+    auto textureIt = textures.find(id);
 
-    destRect.x = xpos;
-    destRect.y = ypos;
-    destRect.w = destW * scale;
-    destRect.h = destH * scale;
+    if (textureIt == textures.end())
+        return false;
 
-    TextureManager::Draw(texture, srcRect, destRect, SDL_FLIP_NONE);
+    return true;
 }
 
 void AssetManager::AddFont(std::string id, std::string path, int fontSize)

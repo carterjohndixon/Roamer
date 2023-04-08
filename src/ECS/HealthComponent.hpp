@@ -1,8 +1,7 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-
 #include "Components.hpp"
+#include "../Game.hpp"
 
 class HealthComponent : public Component
 {
@@ -13,9 +12,9 @@ public:
         m_barColor = {0, 255, 0, 255};
     }
 
-    void setCurrentHealth(int currentHealth)
+    void setCurrentHealth(int health)
     {
-        m_currentHealth = currentHealth;
+        m_currentHealth = health;
     }
 
     void updateHealthSmallPotion()
@@ -28,10 +27,19 @@ public:
         m_currentHealth += bigPotion;
     }
 
-    void draw(SDL_Renderer *renderer)
+    int getHealth()
+    {
+        return m_currentHealth;
+    }
+
+    void draw() override
     {
         SDL_Rect bgRect = {m_xPos, m_yPos, m_width, m_height};
-        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 255);
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+        SDL_RenderDrawRect(renderer, &bgRect);
+
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+        SDL_SetRenderDrawColor(renderer, 100, 100, 100, 128);
         SDL_RenderFillRect(renderer, &bgRect);
 
         int barWidth = static_cast<int>((m_currentHealth / static_cast<float>(m_maxHealth)) * m_width);
@@ -50,4 +58,6 @@ private:
     SDL_Color m_barColor;
     int smallPotion = 25;
     int bigPotion = 50;
+
+    SDL_Renderer *renderer = Game::renderer;
 };
