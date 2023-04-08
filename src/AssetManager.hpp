@@ -18,6 +18,9 @@ public:
     SDL_Texture *GetTexture(std::string id);
 
     void DrawTexture(std::string id, SDL_Rect mRect, int xpos, int ypos, int destW, int destH, float scale);
+    void DeleteTexture(std::string id);
+
+    bool FindTexture(std::string id);
 
     void AddFont(std::string id, std::string path, int fontSize);
     TTF_Font *GetFont(std::string id);

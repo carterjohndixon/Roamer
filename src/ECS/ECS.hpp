@@ -110,7 +110,7 @@ public:
         return *c;
     }
 
-        template <typename T>
+    template <typename T>
     T &getComponent() const
     {
         auto ptr(componentArray[getComponentTypeID<T>()]);

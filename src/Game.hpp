@@ -32,21 +32,32 @@ public:
     {
         groupMap,
         groupPlayers,
+        groupEnemies,
     };
 
 private:
     SDL_Window *window;
 
+    // int topCol = -29;
+    // int rsCol = -34;
+    // int btCol = 1150;
+    // int lsCol = 1526;
+
     int topCol = -29;
-    int rsCol = -34;
-    int btCol = 1150;
-    int lsCol = 1526;
+    int rsCol = 2980;
+    int btCol = 2911;
+    int lsCol = -34;
+
+    // int topCol = -29;
+    // int rsCol = 2980;
+    // int btCol = 2911;
+    // int lsCol = -34;
 
     SDL_Rect invenSrcR = {
         0,
         0,
-        30,
         160,
+        30,
     };
 
     SDL_Rect swordSrcR = {
