@@ -77,34 +77,6 @@ public:
         setTex(id);
     }
 
-    // void swordSwingLeft(std::string id, bool isAnimated)
-    // {
-    //     animated = isAnimated;
-
-    //     Play("idleSwingLeft");
-
-    //     curTex = id;
-
-    //     setTex(id);
-    // }
-
-    void spawnPlantMonster(std::string id, bool isAnimated)
-    {
-        animated = isAnimated;
-
-        Animation plantMosterSpawn = Animation(0, 5, 300);
-
-        animations.emplace("plantMosterSpawn", plantMosterSpawn);
-
-        Play("plantMosterSpawn");
-
-        std::cout << this->animIndex << std::endl;
-
-        curTex = id;
-
-        setTex(id);
-    }
-
     void setTex(std::string id)
     {
         texture = Game::assets->GetTexture(id);
