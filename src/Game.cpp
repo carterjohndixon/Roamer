@@ -5,6 +5,7 @@
 #include "Vector2D.hpp"
 #include "AssetManager.hpp"
 #include <sstream>
+#include <cstdlib>
 
 Map *map;
 // Enemy *enemy;
@@ -60,8 +61,8 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
     assets->AddTexture("player", "assets/player_anims.png");
     assets->AddTexture("inventoryBox", "assets/inventoryBox.png");
     assets->AddTexture("sword", "assets/sword.png");
-    // assets->AddTexture("plantMonsterSpawn", "assets/plantMonsterSpawnAnim.png");
-    // assets->AddTexture("plantMonster", "assets/plantMonster.png");
+    assets->AddTexture("plantMonsterSpawn", "assets/plantMonsterSpawnAnim.png");
+    /* assets->AddTexture("plantMonster", "assets/plantMonster.png"); */
 
     assets->AddFont("arial", "assets/arial.ttf", 16);
 
@@ -77,7 +78,7 @@ void Game::init(const char *title, int width, int height, bool fullscreen)
 
     health.addComponent<HealthComponent>(100, 100, 635, 10, 150, 25);
 
-    plantEnemy.addComponent<EnemyComponent>("plantMonster", 260, 216, 5);
+    plantEnemy.addComponent<EnemyComponent>("plantMonsterSpawn", 260, 216, 5, true);
     // plantEnemy.getComponent<EnemyComponent>().addPlantEnemy("plantMonster", 260, 216);
 
     // SDL_Color white = {225, 225, 225, 225};
@@ -119,7 +120,6 @@ void Game::handleEvents()
         {
             int mouseX, mouseY;
             SDL_GetMouseState(&mouseX, &mouseY);
-            std::cout << "Mouse X: " << mouseX << " PlayerX: " << player.getComponent<TransformComponent>().position.x << std::endl;
             if (mouseX < player.getComponent<TransformComponent>().position.x || mouseX == player.getComponent<TransformComponent>().position.x)
                 player.getComponent<SpriteComponent>().swordSwing("idleSwingLeft", true);
             if (mouseX > player.getComponent<TransformComponent>().position.x)
@@ -175,6 +175,15 @@ void Game::update()
     Vector2D playerPos = player.getComponent<TransformComponent>().position;
     // std::cout << "X: " << playerPos.x << " Y: " << playerPos.y << " (" << playerPos.x << "," << playerPos.y << ")" << std::endl;
 
+    static Uint32 lo{};
+    Uint32 ct = SDL_GetTicks();
+    Uint32 outputDelay = 10000;
+    if (ct - lo > outputDelay)
+    {
+        std::cout << "X: " << playerPos.x << " Y: " << playerPos.y << " (" << playerPos.x << "," << playerPos.y << ")" << std::endl;
+        lo = ct;
+    }
+
     // std::cout << "X: " << mouseX << " Y: " << mouseY << " (" << mouseX << "," << mouseY << ")" << std::endl;
 
     // curHP = health.getComponent<HealthComponent>().getHealth();
@@ -211,6 +220,15 @@ void Game::render()
         t->draw();
 
     plantEnemy.getComponent<EnemyComponent>().draw();
+    // plantEnemy.getComponent<EnemyComponent>().drawEnemy("assets/plantMonsterSpawnAnim.png", 260, 216, 5);
+    static Uint32 lastSpawnTime{};
+    Uint32 currentTime = SDL_GetTicks();
+    Uint32 spawnDelay = 10000;
+    if (currentTime - lastSpawnTime > spawnDelay)
+    {
+        plantEnemy.getComponent<EnemyComponent>().drawEnemy("assets/plantMonsterSpawnAnim.png", 5);
+        lastSpawnTime = currentTime;
+    }
 
     for (auto &p : players)
         p->draw();
